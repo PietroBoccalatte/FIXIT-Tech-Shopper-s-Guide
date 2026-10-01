@@ -1,60 +1,33 @@
+// The Conscious Shopper's Guide to Tech
+// This script does not track users, set cookies or store any data.
+//
+// It only improves in-page links: it scrolls smoothly (unless the visitor has
+// asked their device to reduce motion) and moves keyboard / screen reader focus
+// to the section that was jumped to.
 
+document.addEventListener('DOMContentLoaded', function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            const id = link.getAttribute('href').slice(1);
+            if (!id) return;
+
+            const target = document.getElementById(id);
+            if (!target) return;
+
+            event.preventDefault();
+
+            target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+
+            // Make the target focusable so keyboard and screen reader users land there
+            if (!target.hasAttribute('tabindex')) {
+                target.setAttribute('tabindex', '-1');
             }
+            target.focus({ preventScroll: true });
+
+            // Keep the URL and Back button behaving normally
+            history.pushState(null, '', '#' + id);
         });
     });
-
-    // Log when page loads for analytics
-    console.log('Sustainable Tech Shoppers Guide loaded');
-
-    // Add click tracking to device cards (optional)
-    const deviceCards = document.querySelectorAll('.device-card');
-    deviceCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const deviceName = this.querySelector('.device-name').textContent;
-            console.log(`Viewed: ${deviceName}`);
-        });
-    });
-
-    // Dark mode toggle (optional enhancement)
-    const darkModeToggle = document.createElement('button');
-    darkModeToggle.textContent = '🌙 Dark Mode';
-    darkModeToggle.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 8px 16px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 0.9em;
-        z-index: 1000;
-        transition: background 0.3s ease;
-    `;
-
-    darkModeToggle.addEventListener('mouseover', function() {
-        this.style.background = 'var(--secondary)';
-    });
-
-    darkModeToggle.addEventListener('mouseout', function() {
-        this.style.background = 'var(--primary)';
-    });
-
-    darkModeToggle.addEventListener('click', function() {
-        document.body.style.filter = document.body.style.filter === 'invert(1)' ? 'none' : 'invert(1)';
-        this.textContent = document.body.style.filter === 'invert(1)' ? '☀️ Light Mode' : '🌙 Dark Mode';
-    });
-
-    // Uncomment to enable dark mode toggle:
-    // document.body.appendChild(darkModeToggle);
 });
