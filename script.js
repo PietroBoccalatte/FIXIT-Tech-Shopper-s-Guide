@@ -1,9 +1,6 @@
-// The Conscious Shopper's Guide to Tech
 // This script does not track users, set cookies or store any data.
 //
-// It only improves in-page links: it scrolls smoothly (unless the visitor has
-// asked their device to reduce motion) and moves keyboard / screen reader focus
-// to the section that was jumped to.
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
