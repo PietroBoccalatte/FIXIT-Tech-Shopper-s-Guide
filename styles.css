@@ -1,11 +1,3 @@
-/* ==========================================================================
-   The Conscious Shopper's Guide to Tech
-   Accessibility notes (WCAG 2.2 AA):
-   - All text/background pairs below meet at least 4.5:1 contrast
-   - Visible focus indicators, skip link, reduced-motion support
-   - Layout reflows down to 320px wide with no horizontal scrolling
-   ========================================================================== */
-
 :root {
     --primary: #0a4103;      /* dark green  – 11:1 on white */
     --secondary: #033764;    /* dark blue   – 12:1 on white */
